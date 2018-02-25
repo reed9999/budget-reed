@@ -1,0 +1,10 @@
+---
+#sample.conf.yaml - Standard configuration for our app.
+input-root: ~/Documents/budget
+input-extension: .csv
+#At some point we may choose to make inputs a hash. For now, just standardize
+# filenames and then it's simple
+inputs:
+  -bank1
+  -bank2
+  -credit_card1
