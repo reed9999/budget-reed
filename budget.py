@@ -6,7 +6,7 @@
 # tips.
 #Sometime this would be fun for GUI: https://stackoverflow.com/a/17470842/742573
 from BudgetApp import BudgetApp
-
+import behave
 
 def main():
     """
@@ -25,25 +25,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-
-
-
-    """
-    This will become my BDD
-    
-    Feature: Calculate burn rate for each month for which we have data
-    
-    I'm tired of not knowing how much we're spending!
-    
-    Scenario: From inputs in conf.yaml, calculate burn rate for relevant months
-    
-    Given that all input files are in the right place
-    And that we know the formats
-    
-    When I run the main() function
-    
-    Then some output should appear somewhere (I don't care where) with the 
-    correct amount spent for each month.
-    
-    """
