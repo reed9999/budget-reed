@@ -37,7 +37,6 @@ class BudgetApp(object):
     def output_data(self):
         with open("__temp-output-file.csv", 'w') as f:
             fieldnames = self.rows[0].keys()
-            print(fieldnames)
             w = csv.DictWriter(f, fieldnames)
             w.writeheader()
             w.writerows(self.rows)
