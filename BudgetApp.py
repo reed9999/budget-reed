@@ -1,7 +1,7 @@
 #going by this for a singleton idiom: http://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html
 
 from yaml import load, dump
-import csv, re
+import csv, re, datetime
 
 class BudgetApp(object):
 
@@ -41,7 +41,8 @@ class BudgetApp(object):
         # references to each method for different formats, and then standardize the interface
         # so as to just iterate through a dict matching each field with its format.
         def parse_date(self, str):
-            return "XX"
+            rv = datetime.datetime.strptime(str, "%x")
+            return rv
 
         def parse_gain_loss(self, str):
             import locale
