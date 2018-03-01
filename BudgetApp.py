@@ -14,12 +14,14 @@ class BudgetApp(object):
 
         def load_config(self):
             #Why is it hardcoded? Fake it til we make it!
-            self.config = {u"input-file" : "/home/philip/code/budget-reed/__/something.csv"}
+            with open("./conf.yaml", "r") as config_file:
+                self.config = load(config_file)
             return self.config
 
         def read_data_from_input_file(self):
             self.rows = []
-            with open(self.config[u"input-file"]) as f:
+            #with open(self.config[u"input-file"]) as f:
+            with open(self.config[u"test-input-file"]) as f:
                 self.rows = list(csv.DictReader(f))
 
         def output_data(self):

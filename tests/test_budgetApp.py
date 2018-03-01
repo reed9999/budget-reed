@@ -1,12 +1,15 @@
 from unittest import TestCase
 from BudgetApp import BudgetApp
-import csv, re
+import csv, re, os
+
 
 class TestBudgetApp(TestCase):
     output_fn = "__temp-output-file.csv"
 
     def setUp(self):
         self.app = BudgetApp()
+        os.chdir(os.path.expanduser("~/code/budget-reed"))
+
 
     def test_load_config(self):
         config = self.app.load_config()
@@ -65,10 +68,14 @@ class TestBudgetApp(TestCase):
                                  "The output file is not present and that is a problem. File name: {0}".format(fn))
             rows = list(csv.DictReader(output_file))
             positives = [row for row in rows if float(row['Amount']) > 0.0]
-            gave_refund = 'ALASKA'
+            payment = 'PAYMENT RECEIVED'
+            who_gave_refund = 'ALASKA'
+            patterns = [payment, who_gave_refund]
+
             non_matching_positives = [row for row in positives if
-                                      (not re.search('PAYMENT RECEIVED', row['Amount']) and
-                                       not re.search(gave_refund, row['Amount']))]
+                                      #Obviously this is messy and I need to figure out how to search for any...
+                                      (not re.search(patterns[0], row['Description']) and
+                                       not re.search(patterns[1], row['Description']))]
             self.assertLess(len(non_matching_positives), 1, "My regex is probably broken but... "
                                                             "There shouldn't be any surprising positive entries.")
 

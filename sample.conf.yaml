@@ -8,3 +8,5 @@ inputs:
   -bank1
   -bank2
   -credit_card1
+
+test-input-file: /home/reed9999/whatever/some-name.csv
