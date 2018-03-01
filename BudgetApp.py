@@ -41,7 +41,9 @@ class BudgetApp(object):
         # references to each method for different formats, and then standardize the interface
         # so as to just iterate through a dict matching each field with its format.
         def parse_date(self, str):
-            rv = datetime.datetime.strptime(str, "%x")
+            #import locale
+            #locale.setlocale(locale.LC_ALL, 'en_US')    #unsupported. Weird! de_DE is the same.
+            rv = datetime.datetime.strptime(str, "%m/%d/%Y")
             return rv
 
         def parse_gain_loss(self, str):

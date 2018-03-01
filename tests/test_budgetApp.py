@@ -18,7 +18,13 @@ class TestBudgetApp(TestCase):
         self.assertGreater(len(self.app.rows), 0, 'Should have read in some rows from the input file.')
 
     def test_output_data(self):
-        list_of_dicts = [{'hello' : 1, 'goodbye' : 2}]
+        list_of_dicts = [
+            {'Date': '08/13/1978', 'Name': 'HANDY CLEANERS', 'Amount': '(700.54)'},
+            {'Date': '08/13/1982', 'Name': 'DANDY CLEANERS', 'Amount': '(815.54)'},
+            {'Date': '08/13/2004', 'Name': 'CANDY CLEANERS', 'Amount': '(912.54)'},
+            {'Date': '08/13/2015', 'Name': 'VANDY HOME SERVICES', 'Amount': '(1.17)'},
+            {'Date': '08/13/2018', 'Name': 'HANDY CLEANERS', 'Amount': '(5.00)'},
+                         ]
         # self.app.__instance.rows = list_of_dicts
         self.app.set_rows(list_of_dicts)
         self.app.output_data()
@@ -26,10 +32,10 @@ class TestBudgetApp(TestCase):
         with open(fn, 'r') as output_file:
             self.assertIsNotNone(output_file, "The output file is not present and that is a problem. File name: {0}".format(fn))
             lines=output_file.readlines()
-            self.assertGreater(len(lines), 10, "The output file should have many lines but only has {0}.".format(len(lines)))
+            self.assertGreater(len(lines), 4, "The output file should have many lines but only has {0}.".format(len(lines)))
 
     def test_clean_up_data(self):
-        list_of_dicts = [{'Date': '07/29/73', 'Name': 'HANDY CLEANERS', 'Amount': '(700.54)'}]
+        list_of_dicts = [{'Date': '07/29/1973', 'Name': 'HANDY CLEANERS', 'Amount': '(700.54)'}]
         # self.app.__instance.rows = list_of_dicts
         self.app.set_rows(list_of_dicts)
         self.app.clean_up_data()
