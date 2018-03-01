@@ -23,19 +23,20 @@ def step_impl(context):
     # could be put somewhere more appropriate with actual asserts and stuff.
     print("This should actually be a unit test so I will assume that they pass. ")
 
-@when("I run the main\(\) function")
+@when("I run the run function")
 def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.scenario.skip()
-    pass
+    BudgetApp.run()
 
 
-@then("some output should appear somewhere \(I don't care where\) with the correct amount spent for each month\.")
+@then("some output should appear somewhere--I don't care where--with the correct amount spent for each month\.")
 def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.scenario.skip()
-    pass
+    fn = "__temp-output-file.csv"
+    with open(fn, 'r') as f:
+        if f is None:
+            raise Exception("The output file is not present and that is a problem. File name: {0}".format(fn))

@@ -64,7 +64,6 @@ class BudgetApp(object):
                 self.read_data_from_input_file()
                 self.clean_up_data()
                 self.output_data()
-                print(self.rows)
 
         def set_rows(self, rows):
             self.rows = rows
