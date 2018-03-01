@@ -13,7 +13,8 @@ class BudgetApp(object):
             return repr(self)
 
         def load_config(self):
-            self.config = {u"input-file" : "__/something.csv"}
+            #Why is it hardcoded? Fake it til we make it!
+            self.config = {u"input-file" : "/home/philip/code/budget-reed/__/something.csv"}
             return self.config
 
         def read_data_from_input_file(self):

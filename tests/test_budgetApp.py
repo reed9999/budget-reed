@@ -1,8 +1,10 @@
 from unittest import TestCase
 from BudgetApp import BudgetApp
-
+import csv, re
 
 class TestBudgetApp(TestCase):
+    output_fn = "__temp-output-file.csv"
+
     def setUp(self):
         self.app = BudgetApp()
 
@@ -28,7 +30,8 @@ class TestBudgetApp(TestCase):
         # self.app.__instance.rows = list_of_dicts
         self.app.set_rows(list_of_dicts)
         self.app.output_data()
-        fn = "__temp-output-file.csv"
+        fn = self.__class__.output_fn
+
         with open(fn, 'r') as output_file:
             self.assertIsNotNone(output_file, "The output file is not present and that is a problem. File name: {0}".format(fn))
             lines=output_file.readlines()
@@ -53,4 +56,23 @@ class TestBudgetApp(TestCase):
         self.assertEqual(-1234.45, result, "Parsing method parse_gain_loss doesn't work. ")
         result = self.app.parse_gain_loss('"999,888.75"')
         self.assertEqual(999888.75, result, "Parsing method parse_gain_loss doesn't work for gains with quotes. ")
+
+    def test_output_positive_entries_make_sense(self):
+        self.app.run()
+        fn = self.__class__.output_fn
+        with open(fn, 'r') as output_file:
+            self.assertIsNotNone(output_file,
+                                 "The output file is not present and that is a problem. File name: {0}".format(fn))
+            rows = list(csv.DictReader(output_file))
+            positives = [row for row in rows if float(row['Amount']) > 0.0]
+            gave_refund = 'ALASKA'
+            non_matching_positives = [row for row in positives if
+                                      (not re.search('PAYMENT RECEIVED', row['Amount']) and
+                                       not re.search(gave_refund, row['Amount']))]
+            self.assertLess(len(non_matching_positives), 1, "My regex is probably broken but... "
+                                                            "There shouldn't be any surprising positive entries.")
+
+
+    def test_alternative_input_files(self):
+        self.skipTest("Right now input file name is hardcoded!")
 
