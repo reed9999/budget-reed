@@ -44,15 +44,20 @@ class BudgetApp(object):
             return "XX"
 
         def parse_gain_loss(self, str):
+            import locale
+            locale.setlocale(locale.LC_ALL, '')
+
             capture_digits_periods_commas = "([0-9\.,]*)"
             optional_quote = '"*'
-            pattern = "\(" + optional_quote + capture_digits_periods_commas + optional_quote + "\)"
-            result = re.search(pattern, str)
-            if result:
-                print ("Fake it til you make it. Better improve the tests.")
-                return -1234.45
-            else:
-                return str
+            loss_pattern = "\(" + optional_quote + capture_digits_periods_commas + optional_quote + "\)"
+            gain_pattern = "^" + optional_quote + capture_digits_periods_commas + optional_quote + "$"
+            gain_result = re.search(gain_pattern, str)
+            loss_result = re.search(loss_pattern, str)
+            if loss_result:
+                return -locale.atof(loss_result.group(1))
+            elif gain_result:
+                return locale.atof(gain_result.group(1))
+            raise Exception("I couldn't match this with {} or {}".format((loss_pattern, gain_pattern)))
 
         def run_for_instance(self):
                 self.load_config()

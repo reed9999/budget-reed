@@ -28,10 +28,22 @@ class TestBudgetApp(TestCase):
                 raise Exception("The input file is not present and that is a problem. File name: {0}".format(fn))
 
     def test_clean_up_data(self):
-        self.skipTest('NYI')
+        list_of_dicts = [{'Date': '07/29/73', 'Name': 'HANDY CLEANERS', 'Amount': '(700.54)'}]
+        # self._app.__instance.rows = list_of_dicts
+        self._app.set_rows(list_of_dicts)
+        self._app.clean_up_data()
+        self.assertIsNotNone(self._app.rows)
+        self.assertEqual( -700.54, self._app.rows[0]['Amount'], "Amount should match")
 
     def test_parse_date(self):
         self.skipTest('NYI')
 
     def test_parse_gain_loss(self):
-        self.skipTest('NYI')
+        test_app = self._app
+        result = test_app.parse_gain_loss("(1234.45)")
+        if result != -1234.45:
+            raise Exception("Parsing method parse_gain_loss doesn't work. ")
+        result = test_app.parse_gain_loss('"999,888.75"')
+        if result != 999888.75:
+            raise Exception("Parsing method parse_gain_loss doesn't work for gains with quotes. ")
+
