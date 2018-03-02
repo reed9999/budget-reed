@@ -52,7 +52,7 @@ class TestBudgetApp(TestCase):
         import datetime
         result = self.app.parse_date("12/06/2017")
         self.assertEqual(datetime.datetime(year=2017, month=12, day=6, hour=0, minute=0), result,
-                         f"Parsing method parse_date doesn't work")
+                         "Parsing method parse_date doesn't work")
 
     def test_parse_gain_loss(self):
         result = self.app.parse_gain_loss("(1234.45)")
@@ -63,21 +63,20 @@ class TestBudgetApp(TestCase):
     def test_output_positive_entries_make_sense(self):
         self.app.run()
         fn = self.__class__.output_fn
+        rows = []
         with open(fn, 'r') as output_file:
             self.assertIsNotNone(output_file,
                                  "The output file is not present and that is a problem. File name: {0}".format(fn))
             rows = list(csv.DictReader(output_file))
-            positives = [row for row in rows if float(row['Amount']) > 0.0]
-            payment = 'PAYMENT RECEIVED'
-            who_gave_refund = 'ALASKA'
-            patterns = [payment, who_gave_refund]
+        positives = [row for row in rows if float(row['Amount']) > 0.0]
 
-            non_matching_positives = [row for row in positives if
-                                      #Obviously this is messy and I need to figure out how to search for any...
-                                      (not re.search(patterns[0], row['Description']) and
-                                       not re.search(patterns[1], row['Description']))]
-            self.assertLess(len(non_matching_positives), 1, "My regex is probably broken but... "
-                                                            "There shouldn't be any surprising positive entries.")
+        vendor_who_gave_refund = 'ALASKA'
+        patterns = ['PAYMENT RECEIVED', vendor_who_gave_refund]
+        match_any_regex = "|".join(patterns)
+
+        problem_positives = [row for row in positives if not re.search(match_any_regex, row['Description'])]
+        self.assertLess(len(problem_positives), 1, "My regex is probably broken but... "
+                                                        "There shouldn't be any surprising positive entries.")
 
 
     def test_alternative_input_files(self):
