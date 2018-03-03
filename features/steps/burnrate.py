@@ -40,3 +40,14 @@ def step_impl(context):
     with open(fn, 'r') as f:
         if f is None:
             raise Exception("The output file is not present and that is a problem. File name: {0}".format(fn))
+
+
+@then("Unit tests pass")
+def step_impl(context):
+    import tests.test_budgetApp as tba
+    import unittest
+    """
+    :type context: behave.runner.Context
+    """
+    test = tba.TestBudgetApp()
+    unittest.main(tba)

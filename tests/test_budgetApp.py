@@ -5,6 +5,7 @@ import csv, re, os
 
 class TestBudgetApp(TestCase):
     output_fn = "__temp-output-file.csv"
+    runTest = ['test_load_config', 'test_output_data']  #This does not appear to be the right way to do this.
 
     def setUp(self):
         self.app = BudgetApp()
@@ -15,7 +16,8 @@ class TestBudgetApp(TestCase):
         config = self.app.load_config()
         self.assertIsNotNone(self.app.config, 'Should have loaded a config [and returned a value].')
         self.assertIsNotNone(config, 'Should have [loaded a config and] returned a value.')
-        self.assertIsNotNone(config['input-file'], 'Loaded config should include input-file')
+        example_key = u'input-filename'
+        self.assertIsNotNone(config[example_key], 'Loaded config should include {}'.format(example_key))
 
     def test_read_data_from_input_file(self):
         self.app.read_data_from_input_file()

@@ -20,8 +20,8 @@ class BudgetApp(object):
 
         def read_data_from_input_file(self):
             self.rows = []
-            #with open(self.config[u"input-file"]) as f:
-            with open(self.config[u"test-input-file"]) as f:
+            input_fn = "{}/{}".format(self.config[u"input-root"], self.config[u"input-filename"])
+            with open(input_fn) as f:
                 self.rows = list(csv.DictReader(f))
 
         def output_data(self):

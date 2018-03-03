@@ -14,4 +14,7 @@ Feature: Calculate burn rate for each month for which we have data
     When I run the run function
 
     Then some output should appear somewhere--I don't care where--with the correct amount spent for each month.
-    
+
+  Scenario: Code base is solid at the unit-test level
+
+    Then Unit tests pass
